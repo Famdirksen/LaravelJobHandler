@@ -1,5 +1,5 @@
 {
-    "name": "Famdirksen/LaravelJobHandler",
+    "name": "famdirksen/laravel-job-handler",
     "type": "library",
     "description": "Laravel job/crawler monitoring",
     "keywords": [
