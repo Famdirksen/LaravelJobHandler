@@ -63,8 +63,8 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 
 [link-packagist]: https://packagist.org/packages/famdirksen/laravel-job-handler
 [link-travis]: https://travis-ci.org/famdirksen/laravel-job-handler
-[link-scrutinizer]: https://scrutinizer-ci.com/g/famdirksen/laravel-job-handler/code-structure
-[link-code-quality]: https://scrutinizer-ci.com/g/famdirksen/laravel-job-handler
+[link-scrutinizer]: https://scrutinizer-ci.com/g/Famdirksen/LaravelJobHandler/code-structure
+[link-code-quality]: https://scrutinizer-ci.com/g/Famdirksen/LaravelJobHandler
 [link-downloads]: https://packagist.org/packages/famdirksen/laravel-job-handler
 [link-author]: https://github.com/robindirksen1
 [link-contributors]: ../../contributors
