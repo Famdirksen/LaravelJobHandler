@@ -48,7 +48,7 @@ class CrawlController
                 break;
             }
 
-            if(is_null($this->crawler->latest_status)) {
+            if (is_null($this->crawler->latest_status)) {
                 //first time it runs...
                 break;
             }

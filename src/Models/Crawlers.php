@@ -8,30 +8,32 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Crawlers extends Model
 {
-   use SoftDeletes;
+    use SoftDeletes;
 
-   protected $fillable = [
+    protected $fillable = [
        'name',
        'description'
    ];
 
 
-   public function activate() {
-       if($this->enabled) {
-           throw new CrawlerAlreadyActivatedException();
-       }
+    public function activate()
+    {
+        if ($this->enabled) {
+            throw new CrawlerAlreadyActivatedException();
+        }
 
-       $this->enabled = true;
+        $this->enabled = true;
 
-       return $this->save();
-   }
-   public function deactivate() {
-       if(!$this->enabled) {
-           throw new CrawlerAlreadyActivatedException();
-       }
+        return $this->save();
+    }
+    public function deactivate()
+    {
+        if (!$this->enabled) {
+            throw new CrawlerAlreadyActivatedException();
+        }
 
-       $this->enabled = false;
+        $this->enabled = false;
 
-       return $this->save();
-   }
+        return $this->save();
+    }
 }
