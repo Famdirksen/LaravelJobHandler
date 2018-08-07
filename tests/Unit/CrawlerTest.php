@@ -144,7 +144,8 @@ class CrawlerTest extends TestCase
 
 
     /** @test */
-    public function it_can_run_the_first_time() {
+    public function it_can_run_the_first_time()
+    {
         $crawler = $this->getCrawlerData();
 
         $crawler->time_between = 5;
@@ -162,7 +163,8 @@ class CrawlerTest extends TestCase
         $this->assertTrue($check['status']);
     }
     /** @test */
-    public function it_can_specify_a_time_between_jobs() {
+    public function it_can_specify_a_time_between_jobs()
+    {
         $crawler = $this->getCrawlerData();
 
         $crawler->time_between = 5;
