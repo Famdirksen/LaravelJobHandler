@@ -3,6 +3,7 @@
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
 [![Build Status][ico-travis]][link-travis]
+[![StyleCI][ico-styleci]][link-styleci]
 [![Coverage Status][ico-scrutinizer]][link-scrutinizer]
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
@@ -54,6 +55,7 @@ If you discover any security related issues, please email robin@famdirksen.nl in
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
+[ico-styleci]: https://github.styleci.io/repos/143735844/shield
 [ico-version]: https://img.shields.io/packagist/v/famdirksen/laravel-job-handler.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [ico-travis]: https://img.shields.io/travis/Famdirksen/LaravelJobHandler/master.svg?style=flat-square
@@ -61,6 +63,7 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [ico-code-quality]: https://img.shields.io/scrutinizer/g/Famdirksen/LaravelJobHandler.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/famdirksen/laravel-job-handler.svg?style=flat-square
 
+[link-styleci]: https://github.styleci.io/repos/143735844
 [link-packagist]: https://packagist.org/packages/famdirksen/laravel-job-handler
 [link-travis]: https://travis-ci.org/Famdirksen/LaravelJobHandler
 [link-scrutinizer]: https://scrutinizer-ci.com/g/Famdirksen/LaravelJobHandler/code-structure
