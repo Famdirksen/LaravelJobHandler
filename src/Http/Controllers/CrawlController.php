@@ -86,6 +86,9 @@ class CrawlController
     {
         return $this->addStatus(2, $output); //done running
     }
+    public function finish($output = '') {
+        return $this->doneCrawler($output);
+    }
     /**
      * crawler failed...
      *
