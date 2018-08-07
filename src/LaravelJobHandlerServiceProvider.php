@@ -13,7 +13,7 @@ class LaravelJobHandlerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->loadMigrationsFrom(__DIR__.'/migrations');
     }
 
     /**
@@ -23,6 +23,8 @@ class LaravelJobHandlerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->mergeConfigFrom(
+            __DIR__.'/config/laravel-job-handler.php', 'laravel-job-handler'
+        );
     }
 }
