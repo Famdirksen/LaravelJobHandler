@@ -27,9 +27,37 @@ class CrawlController
             $this->crawler = $this->crawler->fresh();
         }
     }
+
+    /**
+     * Set the crawler id
+     *
+     * @param $crawler_id
+     */
     public function setCrawlerId($crawler_id)
     {
         $this->crawler_id = $crawler_id;
+    }
+
+    /**
+     * Return the crawler id
+     *
+     * @return mixed
+     */
+    public function getCrawlerId() {
+        return $this->crawler_id;
+    }
+
+    /**
+     * Check if the controller is setup correctly
+     *
+     * @return bool
+     */
+    protected function controllerIsSetup() {
+        if(!is_null($this->crawler_id)) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -37,54 +65,60 @@ class CrawlController
      *
      * @param $crawler_id
      */
-    public function setupCrawler($crawler_id)
+    public function setupCrawler($crawler_id = null)
     {
-        $this->setCrawlerId($crawler_id);
-        $times = config('laravel-job-handler.run_times', 10);
-
-        for ($x = 0; $x <= $times; $x++) {
-            //fetch the last data
-            $this->getCrawler();
-
-            if (!$this->crawler->enabled) {
-                throw new CrawlerException('Crawler (#' . $this->crawler_id . ') - crawler isnt enabled in database');
-            }
-
-
-            $checkIfCrawlerCanBeRunned = $this->canCrawlerRunAfterPeriod();
-
-            if ($checkIfCrawlerCanBeRunned['status']) {
-                if (is_null($this->crawler->latest_status)) {
-                    //first time it runs...
-                    break;
-                }
-                if ($this->crawler->latest_status == 2) {
-                    //Done running...
-                    break;
-                }
-
-
-                if ($this->crawler->latest_status == 3) {
-                    throw new CrawlerException('Crawler (#' . $this->crawler_id . ') - last run had an error');
-                }
-            } else {
-                throw new CrawlerNotReachedTimeBetweenJobsException('Has to wait '.$checkIfCrawlerCanBeRunned['retry_in'].' more seconds to run');
-            }
-
-            if ($x == $times) {
-                $this->failCrawler('Crawler (#'.$this->crawler_id.') - max execution time');
-            }
-
-            if ($this->crawler->status == 1) {
-                if ($this->crawler->multiple_crawlers) {
-                    break;
-                }
-
-                sleep(config('laravel-job-handler.retry_in_seconds', 3)); //retry in 3 seconds
-            }
+        if(!is_null($crawler_id)) {
+            $this->setCrawlerId($crawler_id);
         }
 
-        $this->startCrawler();
+        if($this->controllerIsSetup()) {
+            $times = config('laravel-job-handler.run_times', 10);
+
+            for ($x = 0; $x <= $times; $x++) {
+                //fetch the last data
+                $this->getCrawler();
+
+                if (!$this->crawler->enabled) {
+                    throw new CrawlerException('Crawler (#' . $this->crawler_id . ') - crawler isnt enabled in database');
+                }
+
+                $checkIfCrawlerCanBeRunned = $this->canCrawlerRunAfterPeriod();
+
+                if ($checkIfCrawlerCanBeRunned['status']) {
+                    if (is_null($this->crawler->latest_status)) {
+                        //first time it runs...
+                        break;
+                    }
+                    if ($this->crawler->latest_status == 2) {
+                        //Done running...
+                        break;
+                    }
+
+
+                    if ($this->crawler->latest_status == 3) {
+                        throw new CrawlerException('Crawler (#' . $this->crawler_id . ') - last run had an error');
+                    }
+                } else {
+                    throw new CrawlerNotReachedTimeBetweenJobsException('Has to wait ' . $checkIfCrawlerCanBeRunned['retry_in'] . ' more seconds to run');
+                }
+
+                if ($x == $times) {
+                    $this->failCrawler('Crawler (#' . $this->crawler_id . ') - max execution time');
+                }
+
+                if ($this->crawler->status == 1) {
+                    if ($this->crawler->multiple_crawlers) {
+                        break;
+                    }
+
+                    sleep(config('laravel-job-handler.retry_in_seconds', 3)); //retry in 3 seconds
+                }
+            }
+
+            $this->startCrawler();
+        } else {
+            throw new CrawlerException('CrawlController is not setup correctly.');
+        }
     }
     /**
      * Start the crawler and save it to the database
@@ -104,6 +138,13 @@ class CrawlController
     {
         return $this->addStatus(2, $output); //done running
     }
+
+    /**
+     * Finishing the crawler
+     *
+     * @param string $output
+     * @return bool
+     */
     public function finish($output = '')
     {
         return $this->doneCrawler($output);
@@ -120,7 +161,7 @@ class CrawlController
         throw new CrawlerException($output.' - status 3');
     }
     /**
-     * save the latest crawler status to the database
+     * Save the latest crawler status to the database
      *
      * @param $status
      * @param string $output
@@ -179,6 +220,14 @@ class CrawlController
             return $this->canCrawlerRunAfterPeriodStatus(true);
         }
     }
+
+    /**
+     * Return the status for canCrawlerRunAfterPeriod method
+     *
+     * @param $status
+     * @param int $retry_in
+     * @return array
+     */
     public function canCrawlerRunAfterPeriodStatus($status, $retry_in = 0)
     {
         return [
