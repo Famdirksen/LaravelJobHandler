@@ -24,7 +24,6 @@ class CreateCrawlersTable extends Migration
             $table->integer('time_between')->nullable();
 
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

@@ -20,7 +20,6 @@ class CreateCrawlerStatusTable extends Migration
             $table->integer('status'); //1 = running - 2 = done - 3 = error
 
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

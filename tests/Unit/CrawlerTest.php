@@ -3,6 +3,7 @@
 namespace Famdirksen\LaravelJobHandler\Tests\Unit;
 
 use Famdirksen\LaravelJobHandler\Exceptions\CrawlerAlreadyActivatedException;
+use Famdirksen\LaravelJobHandler\Exceptions\CrawlerAlreadyDeactivatedException;
 use Famdirksen\LaravelJobHandler\Http\Controllers\CrawlController;
 use Famdirksen\LaravelJobHandler\LaravelJobHandlerServiceProvider;
 use Famdirksen\LaravelJobHandler\Models\Crawlers;
@@ -17,14 +18,11 @@ class CrawlerTest extends TestCase
     {
         parent::setUp();
 
-        $this->refreshDatabase();
-
         $this->loadMigrationsFrom(__DIR__ . '/../../src/migrations');
     }
     protected function getEnvironmentSetUp($app)
     {
         $app['config']->set('database.default', 'sqlite');
-
         $app['config']->set('database.connections.sqlite', [
             'driver' => 'sqlite',
             'database' => ':memory:',
@@ -136,7 +134,7 @@ class CrawlerTest extends TestCase
         $this->assertTrue(!$crawler->enabled);
 
         //check if it can be activated again
-        $this->expectException(CrawlerAlreadyActivatedException::class);
+        $this->expectException(CrawlerAlreadyDeactivatedException::class);
 
         $crawler->deactivate();
     }

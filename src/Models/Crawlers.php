@@ -3,13 +3,11 @@
 namespace Famdirksen\LaravelJobHandler\Models;
 
 use Famdirksen\LaravelJobHandler\Exceptions\CrawlerAlreadyActivatedException;
+use Famdirksen\LaravelJobHandler\Exceptions\CrawlerAlreadyDeactivatedException;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Crawlers extends Model
 {
-    use SoftDeletes;
-
     protected $table = 'crawlers';
 
     protected $fillable = [
@@ -32,7 +30,8 @@ class Crawlers extends Model
 
     public function getLastRunnedAtAttribute()
     {
-        if ($this->last_run) {
+        if ($this->last_run)
+        {
             return $this->last_run->created_at;
         }
 
@@ -52,7 +51,7 @@ class Crawlers extends Model
     public function deactivate()
     {
         if (!$this->enabled) {
-            throw new CrawlerAlreadyActivatedException();
+            throw new CrawlerAlreadyDeactivatedException();
         }
 
         $this->enabled = false;

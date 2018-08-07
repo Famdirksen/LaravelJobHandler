@@ -20,7 +20,6 @@ class CreateCrawlerStatusLogsTable extends Migration
             $table->text('output');
 
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
