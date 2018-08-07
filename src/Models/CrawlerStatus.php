@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CrawlerStatus extends Model
 {
-   use SoftDeletes;
+    use SoftDeletes;
 
-   protected $table = 'crawler_statuses';
+    protected $table = 'crawler_statuses';
 }

@@ -2,6 +2,6 @@
 
 namespace Famdirksen\LaravelJobHandler\Exceptions;
 
-class CrawlerAlreadyActivatedException extends \Exception {
-
+class CrawlerAlreadyActivatedException extends \Exception
+{
 }
