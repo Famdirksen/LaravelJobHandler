@@ -30,8 +30,7 @@ class Crawlers extends Model
 
     public function getLastRunnedAtAttribute()
     {
-        if ($this->last_run)
-        {
+        if ($this->last_run) {
             return $this->last_run->created_at;
         }
 

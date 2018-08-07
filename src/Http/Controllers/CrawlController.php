@@ -29,7 +29,8 @@ class CrawlController
         $this->stopLogging();
     }
 
-    public function overrideFailStatus(bool $state) {
+    public function overrideFailStatus(bool $state)
+    {
         $this->log('Setup overrideFailStatus to: '.$state);
 
         $this->override_fail_status = $state;
@@ -80,10 +81,11 @@ class CrawlController
      *
      * @return bool
      */
-    protected function controllerIsSetup() {
+    protected function controllerIsSetup()
+    {
         $this->log('Check if controllerIsSetup');
 
-        if(!is_null($this->crawler_id)) {
+        if (!is_null($this->crawler_id)) {
             return true;
         }
 
@@ -99,7 +101,7 @@ class CrawlController
     {
         $this->log('Setup crawler');
 
-        if(!is_null($crawler_id)) {
+        if (!is_null($crawler_id)) {
             $this->log('Setup crawler, crawler_id is not set');
             $this->setCrawlerId($crawler_id);
         }
@@ -138,7 +140,7 @@ class CrawlController
 
 
                     if ($this->crawler->latest_status == 3) {
-                        if($this->override_fail_status) {
+                        if ($this->override_fail_status) {
                             $this->log('Last crawler failed, but it is forced to run');
 
                             //override the failed state, this will force to rerun...
@@ -261,7 +263,7 @@ class CrawlController
                 CrawlerStatusLogs::insert($formatted_logs);
             }
 
-            if($status == 2) {
+            if ($status == 2) {
                 $this->stopLogging($crawlerstatus->id);
             }
 
@@ -272,16 +274,17 @@ class CrawlController
             throw new CrawlerSaveException('Cannot save crawlerstatus to database...');
         }
     }
-    protected function saveLog($crawlerstatus_id) {
+    protected function saveLog($crawlerstatus_id)
+    {
         $formatted_logs = [];
 
-        foreach($this->logs as $log) {
+        foreach ($this->logs as $log) {
             $formatted_logs[] = [
                 'status_id' => $crawlerstatus_id,
                 'output' => $log
             ];
         }
-        if(count($formatted_logs) > 0) {
+        if (count($formatted_logs) > 0) {
             $this->log('Registering crawler logs');
 
             CrawlerStatusLogs::insert($formatted_logs);
@@ -348,14 +351,13 @@ class CrawlController
         $this->log('Stop logging');
         $this->logging = false;
 
-        if(!is_null($crawlerstatus_id)) {
+        if (!is_null($crawlerstatus_id)) {
             $this->saveLog($crawlerstatus_id);
         }
     }
     protected function log($item = '')
     {
-        if($this->logging)
-        {
+        if ($this->logging) {
             $log = $item.' (crawler_id: '.$this->crawler_id.')';
 
             $this->logs[] = $log;
