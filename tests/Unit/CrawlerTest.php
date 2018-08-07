@@ -9,7 +9,7 @@ use Famdirksen\LaravelJobHandler\Models\Crawlers;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Orchestra\Testbench\TestCase as TestCase;
 
-class ExampleTest extends TestCase
+class CrawlerTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -39,7 +39,8 @@ class ExampleTest extends TestCase
     }
 
 
-    protected function getCrawlerData() {
+    protected function getCrawlerData()
+    {
         return new Crawlers([
             'name' => 'My first crawler',
             'description' => 'This is a test crawler'
@@ -79,7 +80,8 @@ class ExampleTest extends TestCase
         $this->assertTrue($crawler->enabled);
     }
     /** @test */
-    public function it_can_get_a_crawler() {
+    public function it_can_get_a_crawler()
+    {
         $crawler = $this->getCrawlerData();
 
         $crawler->save();
@@ -93,7 +95,8 @@ class ExampleTest extends TestCase
         $this->assertTrue($cc->doneCrawler('Runned succesfully'));
     }
     /** @test */
-    public function it_can_fail_a_crawler() {
+    public function it_can_fail_a_crawler()
+    {
         $crawler = $this->getCrawlerData();
 
         $crawler->save();
@@ -108,7 +111,8 @@ class ExampleTest extends TestCase
         $cc->failCrawler('Failing...');
     }
     /** @test */
-    public function it_can_not_activate_a_activated_crawler() {
+    public function it_can_not_activate_a_activated_crawler()
+    {
         $crawler = $this->getCrawlerData();
 
         $crawler->save();
@@ -123,7 +127,8 @@ class ExampleTest extends TestCase
         $crawler->activate();
     }
     /** @test */
-    public function it_can_not_deactivate_a_deactivated_crawler() {
+    public function it_can_not_deactivate_a_deactivated_crawler()
+    {
         $crawler = $this->getCrawlerData();
 
         $crawler->save();
