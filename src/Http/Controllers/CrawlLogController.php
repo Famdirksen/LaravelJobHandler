@@ -9,10 +9,15 @@ use Famdirksen\LaravelJobHandler\Models\CrawlerStatusLogs;
 
 class CrawlLogController
 {
-    public function clearAllLogs()
+    public function clearAllLogs($is_job = false)
     {
         $enabled = false;
-        $config = config('laravel-job-handler.clear-log-after-seconds', null);
+        $config = config('laravel-job-handler.clear_log_after_seconds', null);
+        $as_job = config('laravel-job-handler.clear_log_via_job', false);
+
+        if($as_job && !$is_job) {
+            //dispatch(new )
+        }
 
         if (!is_null($config)) {
             $enabled = true;

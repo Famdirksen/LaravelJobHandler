@@ -193,7 +193,7 @@ class CrawlerTest extends TestCase
         $cc->setupCrawler($crawler->id);
         $cc->doneCrawler();
 
-        $knownDate = Carbon::now()->addSeconds(config('laravel-job-handler.clear-log-after-seconds', 60*60*24*7));
+        $knownDate = Carbon::now()->addSeconds(config('laravel-job-handler.clear_log_after_seconds', 60*60*24*7));
         Carbon::setTestNow($knownDate);
 
         $cc->doneCrawler();

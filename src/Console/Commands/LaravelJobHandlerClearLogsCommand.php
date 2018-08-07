@@ -2,7 +2,6 @@
 
 namespace Famdirksen\LaravelJobHandler\Console\Commands;
 
-use Famdirksen\LaravelJobHandler\Http\Controllers\CrawlController;
 use Famdirksen\LaravelJobHandler\Http\Controllers\CrawlLogController;
 use Illuminate\Console\Command;
 
