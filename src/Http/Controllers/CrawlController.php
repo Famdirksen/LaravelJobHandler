@@ -68,8 +68,10 @@ class CrawlController
      *
      * @return mixed
      */
-    public function getCrawlerId() {
+    public function getCrawlerId()
+    {
         $this->log('Getting crawler_id');
+
         return $this->crawler_id;
     }
 
@@ -102,7 +104,7 @@ class CrawlController
             $this->setCrawlerId($crawler_id);
         }
 
-        if($this->controllerIsSetup()) {
+        if ($this->controllerIsSetup()) {
             $times = config('laravel-job-handler.run_times', 10);
 
             for ($x = 0; $x <= $times; $x++) {
