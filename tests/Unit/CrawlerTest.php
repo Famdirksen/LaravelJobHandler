@@ -211,7 +211,7 @@ class CrawlerTest extends TestCase
         $this->assertTrue(CrawlerStatusLogs::whereNotIn('status_id', CrawlerStatus::get(['id']))->count() == 0);
 
         //check if there are not results
-        foreach(['crawler_statuses', 'crawler_status_logs'] as $key) {
+        foreach (['crawler_statuses', 'crawler_status_logs'] as $key) {
             $this->assertTrue($count_before[$key] > $count_after[$key], 'Failed: '.$key.' ('.$count_before[$key].' > '.$count_after[$key].')');
         }
     }

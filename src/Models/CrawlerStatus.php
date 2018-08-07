@@ -18,7 +18,7 @@ class CrawlerStatus extends Model
     {
         parent::boot();
 
-        static::deleting(function($item) {
+        static::deleting(function ($item) {
             $item->logs()
                 ->delete();
         });
