@@ -246,13 +246,15 @@ class CrawlController
 
         if ($crawlerstatus->save()) {
             $this->log('Registered status ('.$status.')');
-            $this->log('Setting crawler latest status ('.$status.') attribute');
 
-            $this->crawler->latest_status = $status;
+            if($this->crawler) {
+                $this->log('Setting crawler latest status (' . $status . ') attribute');
 
-            $this->crawler->save();
-            $this->log('Set crawler latest status ('.$status.') attribute');
+                $this->crawler->latest_status = $status;
 
+                $this->crawler->save();
+                $this->log('Set crawler latest status (' . $status . ') attribute');
+            }
 
             if (!empty($output)) {
                 $formatted_logs[] = [
@@ -309,7 +311,7 @@ class CrawlController
         $this->getCrawler();
 
         if (is_null($this->crawler->time_between)) {
-            $this->log('Not time_between specified');
+            $this->log('Not a time_between specified');
 
             return $this->canCrawlerRunAfterPeriodStatus(true);
         } else {
@@ -365,7 +367,7 @@ class CrawlController
             $log = $item.' (crawler_id: '.$this->crawler_id.')';
 
             $this->logs[] = $log;
-            Log::info($log);
+            Log::debug($log);
         }
     }
 }
