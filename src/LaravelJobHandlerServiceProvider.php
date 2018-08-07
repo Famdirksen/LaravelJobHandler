@@ -2,6 +2,7 @@
 
 namespace Famdirksen\LaravelJobHandler;
 
+use Famdirksen\LaravelJobHandler\Console\Commands\LaravelJobHandlerClearLogsCommand;
 use Illuminate\Support\ServiceProvider;
 
 class LaravelJobHandlerServiceProvider extends ServiceProvider
@@ -14,6 +15,12 @@ class LaravelJobHandlerServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->loadMigrationsFrom(__DIR__.'/migrations');
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                LaravelJobHandlerClearLogsCommand::class
+            ]);
+        }
     }
 
     /**

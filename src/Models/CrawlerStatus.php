@@ -12,4 +12,15 @@ class CrawlerStatus extends Model
     {
         return $this->hasMany('Famdirksen\LaravelJobHandler\Models\CrawlerStatusLogs', 'status_id', 'id');
     }
+
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function($item) {
+            $item->logs()
+                ->delete();
+        });
+    }
 }

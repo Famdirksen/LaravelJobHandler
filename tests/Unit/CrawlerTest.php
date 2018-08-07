@@ -2,11 +2,15 @@
 
 namespace Famdirksen\LaravelJobHandler\Tests\Unit;
 
+use Carbon\Carbon;
 use Famdirksen\LaravelJobHandler\Exceptions\CrawlerAlreadyActivatedException;
 use Famdirksen\LaravelJobHandler\Exceptions\CrawlerAlreadyDeactivatedException;
 use Famdirksen\LaravelJobHandler\Http\Controllers\CrawlController;
+use Famdirksen\LaravelJobHandler\Http\Controllers\CrawlLogController;
 use Famdirksen\LaravelJobHandler\LaravelJobHandlerServiceProvider;
 use Famdirksen\LaravelJobHandler\Models\Crawlers;
+use Famdirksen\LaravelJobHandler\Models\CrawlerStatus;
+use Famdirksen\LaravelJobHandler\Models\CrawlerStatusLogs;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Orchestra\Testbench\TestCase as TestCase;
 
@@ -19,15 +23,6 @@ class CrawlerTest extends TestCase
         parent::setUp();
 
         $this->loadMigrationsFrom(__DIR__ . '/../../src/migrations');
-    }
-    protected function getEnvironmentSetUp($app)
-    {
-        $app['config']->set('database.default', 'sqlite');
-        $app['config']->set('database.connections.sqlite', [
-            'driver' => 'sqlite',
-            'database' => ':memory:',
-            'prefix' => '',
-        ]);
     }
     protected function getPackageProviders($app): array
     {
@@ -179,5 +174,45 @@ class CrawlerTest extends TestCase
 
         $this->assertTrue($check['retry_in'] == 5);
         $this->assertFalse($check['status']);
+    }
+
+
+
+    /** @test */
+    public function it_deletes_old_logs_after_1_week()
+    {
+        $crawler = $this->getCrawlerData();
+
+        $crawler->time_between = 5;
+
+        $crawler->save();
+
+        $crawler->activate();
+
+        $cc = new CrawlController();
+        $cc->setupCrawler($crawler->id);
+        $cc->doneCrawler();
+
+        $knownDate = Carbon::now()->addSeconds(config('laravel-job-handler.clear-log-after-seconds', 60*60*24*7));
+        Carbon::setTestNow($knownDate);
+
+        $cc->doneCrawler();
+
+        $count_before['crawler_statuses'] = CrawlerStatus::count();
+        $count_before['crawler_status_logs'] = CrawlerStatusLogs::count();
+
+        $clc = new CrawlLogController();
+        $clc->clearAllLogs();
+
+        $count_after['crawler_statuses'] = CrawlerStatus::count();
+        $count_after['crawler_status_logs'] = CrawlerStatusLogs::count();
+
+        $this->assertTrue($count_after['crawler_statuses'] == 1);
+        $this->assertTrue(CrawlerStatusLogs::whereNotIn('status_id', CrawlerStatus::get(['id']))->count() == 0);
+
+        //check if there are not results
+        foreach(['crawler_statuses', 'crawler_status_logs'] as $key) {
+            $this->assertTrue($count_before[$key] > $count_after[$key], 'Failed: '.$key.' ('.$count_before[$key].' > '.$count_after[$key].')');
+        }
     }
 }

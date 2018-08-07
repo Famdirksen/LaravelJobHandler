@@ -257,7 +257,9 @@ class CrawlController
             if (!empty($output)) {
                 $formatted_logs[] = [
                     'status_id' => $crawlerstatus->id,
-                    'output' => $output
+                    'output' => $output,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ];
 
                 CrawlerStatusLogs::insert($formatted_logs);
@@ -281,7 +283,9 @@ class CrawlController
         foreach ($this->logs as $log) {
             $formatted_logs[] = [
                 'status_id' => $crawlerstatus_id,
-                'output' => $log
+                'output' => $log,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ];
         }
         if (count($formatted_logs) > 0) {
