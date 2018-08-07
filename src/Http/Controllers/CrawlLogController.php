@@ -9,21 +9,23 @@ use Famdirksen\LaravelJobHandler\Models\CrawlerStatusLogs;
 
 class CrawlLogController
 {
-    public function clearAllLogs() {
+    public function clearAllLogs()
+    {
         $enabled = false;
         $config = config('laravel-job-handler.clear-log-after-seconds', null);
 
-        if(!is_null($config)) {
+        if (!is_null($config)) {
             $enabled = true;
         }
 
-        if($enabled) {
+        if ($enabled) {
             $this->clearAllLogsBefore(Carbon::now()->subSeconds($config));
         } else {
             //deleting of old logs is disabled
         }
     }
-    protected function clearAllLogsBefore(Carbon $carbon) {
+    protected function clearAllLogsBefore(Carbon $carbon)
+    {
         $date_string = $carbon->copy()->format('Y-m-d H:i:s');
 
         CrawlerStatus::where('created_at', '<=', $date_string)
