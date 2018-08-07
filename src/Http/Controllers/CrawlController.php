@@ -247,7 +247,7 @@ class CrawlController
         if ($crawlerstatus->save()) {
             $this->log('Registered status ('.$status.')');
 
-            if($this->crawler) {
+            if ($this->crawler) {
                 $this->log('Setting crawler latest status (' . $status . ') attribute');
 
                 $this->crawler->latest_status = $status;
