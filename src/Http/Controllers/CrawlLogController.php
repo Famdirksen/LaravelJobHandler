@@ -15,7 +15,7 @@ class CrawlLogController
         $config = config('laravel-job-handler.clear_log_after_seconds', null);
         $as_job = config('laravel-job-handler.clear_log_via_job', false);
 
-        if($as_job && !$is_job) {
+        if ($as_job && !$is_job) {
             //dispatch(new )
         }
 
