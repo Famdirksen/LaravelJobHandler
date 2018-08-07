@@ -20,8 +20,8 @@ class CreateCrawlersTable extends Migration
             $table->text('description');
             $table->integer('latest_status')->nullable();
             $table->boolean('enabled')->default(false);
-            $table->boolean('multiple')->default(false);
-            $table->integer('time_between')->default(60 * 60 * 24); //1 day
+            $table->boolean('multiple_crawlers')->default(false);
+            $table->integer('time_between')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

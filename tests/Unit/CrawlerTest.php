@@ -140,4 +140,44 @@ class CrawlerTest extends TestCase
 
         $crawler->deactivate();
     }
+
+
+
+    /** @test */
+    public function it_can_run_the_first_time() {
+        $crawler = $this->getCrawlerData();
+
+        $crawler->time_between = 5;
+
+        $crawler->save();
+
+        $crawler->activate();
+
+        $cc = new CrawlController();
+        $cc->setCrawlerId($crawler->id);
+
+        $check = $cc->canCrawlerRunAfterPeriod();
+
+        $this->assertTrue($check['retry_in'] == 0);
+        $this->assertTrue($check['status']);
+    }
+    /** @test */
+    public function it_can_specify_a_time_between_jobs() {
+        $crawler = $this->getCrawlerData();
+
+        $crawler->time_between = 5;
+
+        $crawler->save();
+
+        $crawler->activate();
+
+        $cc = new CrawlController();
+        $cc->setupCrawler($crawler->id);
+        $cc->doneCrawler();
+
+        $check = $cc->canCrawlerRunAfterPeriod();
+
+        $this->assertTrue($check['retry_in'] == 5);
+        $this->assertFalse($check['status']);
+    }
 }
