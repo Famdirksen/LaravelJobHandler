@@ -21,13 +21,14 @@ class CrawlController
      */
     protected function getCrawler()
     {
-        if(empty($this->crawler) || $this->crawler->id != $this->crawler_id) {
+        if (empty($this->crawler) || $this->crawler->id != $this->crawler_id) {
             $this->crawler = Crawlers::findOrFail($this->crawler_id);
         } else {
             $this->crawler = $this->crawler->fresh();
         }
     }
-    public function setCrawlerId($crawler_id) {
+    public function setCrawlerId($crawler_id)
+    {
         $this->crawler_id = $crawler_id;
     }
 
@@ -52,7 +53,7 @@ class CrawlController
 
             $checkIfCrawlerCanBeRunned = $this->canCrawlerRunAfterPeriod();
 
-            if($checkIfCrawlerCanBeRunned['status']) {
+            if ($checkIfCrawlerCanBeRunned['status']) {
                 if (is_null($this->crawler->latest_status)) {
                     //first time it runs...
                     break;
@@ -157,16 +158,17 @@ class CrawlController
      *
      * @return array
      */
-    public function canCrawlerRunAfterPeriod() {
+    public function canCrawlerRunAfterPeriod()
+    {
         $this->getCrawler();
 
-        if(is_null($this->crawler->time_between)) {
+        if (is_null($this->crawler->time_between)) {
             return $this->canCrawlerRunAfterPeriodStatus(true);
         } else {
             $seconds = $this->crawler->time_between;
         }
 
-        if(!is_null($this->crawler->last_runned_at)) {
+        if (!is_null($this->crawler->last_runned_at)) {
             if ($this->crawler->last_runned_at <= Carbon::now()->subSeconds($seconds)) {
                 return $this->canCrawlerRunAfterPeriodStatus(true);
             }
@@ -177,7 +179,8 @@ class CrawlController
             return $this->canCrawlerRunAfterPeriodStatus(true);
         }
     }
-    public function canCrawlerRunAfterPeriodStatus($status, $retry_in = 0) {
+    public function canCrawlerRunAfterPeriodStatus($status, $retry_in = 0)
+    {
         return [
             'status' => $status,
             'retry_in' => $retry_in

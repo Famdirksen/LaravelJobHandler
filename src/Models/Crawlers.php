@@ -19,17 +19,20 @@ class Crawlers extends Model
 
 
 
-    public function runs() {
+    public function runs()
+    {
         return $this->hasMany('Famdirksen\LaravelJobHandler\Models\CrawlerStatus', 'crawler_id', 'id');
     }
-    public function last_run() {
+    public function last_run()
+    {
         return $this->hasOne('Famdirksen\LaravelJobHandler\Models\CrawlerStatus', 'crawler_id', 'id')
             ->orderBy('created_at', 'DESC');
     }
 
 
-    public function getLastRunnedAtAttribute() {
-        if($this->last_run) {
+    public function getLastRunnedAtAttribute()
+    {
+        if ($this->last_run) {
             return $this->last_run->created_at;
         }
 
