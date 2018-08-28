@@ -155,7 +155,7 @@ class CrawlController
                     throw new CrawlerNotReachedTimeBetweenJobsException('Has to wait ' . $checkIfCrawlerCanBeRunned['retry_in'] . ' more seconds to run');
                 }
 
-                if ($x == $times) {
+                if ($x == $times && !$this->override_fail_status) {
                     $this->log('Crawler exceeded the max execution time');
                     $this->failCrawler('Crawler (#' . $this->crawler_id . ') - max execution time');
                 }
